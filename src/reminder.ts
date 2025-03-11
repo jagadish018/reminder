@@ -99,9 +99,9 @@ export class reminderDatabase {
     const pastDueReminders = Array.from(this.reminders.values()).filter(
       (reminder) => {
         if (!reminder.dueDate) {
-          return false;
+          return false;  // Ignore reminders without a due date
         }
-        const reminderDate = new Date(reminder.dueDate);
+        const reminderDate = new Date(reminder.dueDate); //
         return reminderDate < today;
       }
     );
