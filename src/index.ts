@@ -39,15 +39,15 @@ console.log("After removing the second reminder:");
 console.log(reminderDB.getAllReminders());
 
 //marking 1st reminder completed
-reminderDB.markAsCompleted(id1);
+reminderDB.markReminderAsCompleted(id1);
 console.log("\nReminders after marking the first one as completed:");
 console.log(reminderDB.getAllReminders());
 
 //get all marked as completed tasks
-reminderDB.getCompletedReminders();
+reminderDB.getAllRemindersMarkedAsCompleted();
 
 //get all marked as uncompleted tasks
-reminderDB.getIncompletedReminders();
+reminderDB.getAllRemindersNotMarkedAsCompleted();
 
 //checking past due reminders
-reminderDB.getPastDueReminders();
+reminderDB.getAllRemindersDueByToday();
