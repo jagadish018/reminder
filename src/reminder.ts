@@ -28,15 +28,18 @@ export class reminderDatabase {
   }
 
   //mark reminder as completed
-  markReminderAsCompleted(id: string): void {
-    if (!this.exist(id)) {
-      console.log("\nReminder not found\n");
-      return;
-    }
-    const existingReminder = this.reminders.get(id) || {};
-    existingReminder.isCompleted = true;
-    this.reminders.set(id, existingReminder);
+  markReminderAsCompleted(ids: string[]): string[] {
+    ids.forEach((id) => {
+      if (!this.exist(id)) {
+        console.log("\nReminder not found\n");
+        return;
+      }
+      const existingReminder = this.reminders.get(id) || {};
+      existingReminder.isCompleted = true;
+      this.reminders.set(id, existingReminder);
+    });
     console.log("\nReminder marked as completed\n");
+    return ids;
   }
 
   //mark reminder as incompleted
