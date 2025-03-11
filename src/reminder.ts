@@ -28,18 +28,15 @@ export class reminderDatabase {
   }
 
   //mark reminder as completed
-  markReminderAsCompleted(ids: string[]): string[] {
-    ids.forEach((id) => {
-      if (!this.exist(id)) {
-        console.log("\nReminder not found\n");
-        return;
-      }
-      const existingReminder = this.reminders.get(id) || {};
-      existingReminder.isCompleted = true;
-      this.reminders.set(id, existingReminder);
-    });
+  markReminderAsCompleted(id: string): void {
+    if (!this.exist(id)) {
+      console.log("\nReminder not found\n");
+      return;
+    }
+    const existingReminder = this.reminders.get(id) || {};
+    existingReminder.isCompleted = true;
+    this.reminders.set(id, existingReminder);
     console.log("\nReminder marked as completed\n");
-    return ids;
   }
 
   //mark reminder as incompleted
@@ -79,7 +76,7 @@ export class reminderDatabase {
   }
 
   //get all incompleted reminders
-  getAllRemindersNotMarkedAsCompleted(): void {
+  getAllRemindersNotMarkedAsCompleted(): reminder[] {
     const incompletedReminders = Array.from(this.reminders.values()).filter(
       (reminder) => !reminder.isCompleted
     );
@@ -92,6 +89,7 @@ export class reminderDatabase {
       console.log(incompletedReminders);
     }
 
+    return incompletedReminders;
   }
 
   //get all past due reminders
