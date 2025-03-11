@@ -39,7 +39,7 @@ console.log("After removing the second reminder:");
 console.log(reminderDB.getAllReminders());
 
 //marking 1st reminder completed
-reminderDB.markReminderAsCompleted(id1);
+reminderDB.markReminderAsCompleted([id1]);
 console.log("\nReminders after marking the first one as completed:");
 console.log(reminderDB.getAllReminders());
 
