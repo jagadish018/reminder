@@ -8,9 +8,6 @@ type reminder = {
 
 export class reminderDatabase {
   private reminders: Map<string, reminder> = new Map();
-  exist(id: string): boolean {
-    return this.reminders.has(id);
-  }
 
   //creating reminder
   createReminder(reminder: reminder): string {
@@ -25,65 +22,46 @@ export class reminderDatabase {
     }
     return id;
   }
-
-  //get reminder by id
-  getReminder(id: string): reminder | undefined {
-    return this.reminders.get(id);
-  }
-
-  //get all reminders
-  getAllReminders(): reminder[] {
-    return Array.from(this.reminders.values());
-  }
-
-  //remove reminder
-  removeReminder(id: string): void {
-    if (!this.reminders.has(id)) {
-      console.log("\nReminder not found\n");
-      return;
-    }
-    this.reminders.delete(id);
-    console.log("\nReminder removed successfully\n");
-  }
-
-  //update reminder
-  updateReminder(id: string, reminder: reminder): void {
-    if (!this.reminders.has(id)) {
-      console.log("\nReminder not found\n");
-      return;
-    }
-    const existingReminder = this.reminders.get(id);
-    const newReminder = { ...existingReminder, ...reminder, id };
-    this.reminders.set(id, newReminder);
-    console.log("\nReminder updated successfully\n");
+  //check if reminder exists
+  exist(id: string): boolean {
+    return this.reminders.has(id);
   }
 
   //mark reminder as completed
-  markAsCompleted(id: string): void {
-    if (!this.reminders.has(id)) {
+  markReminderAsCompleted(id: string): void {
+    if (!this.exist(id)) {
       console.log("\nReminder not found\n");
       return;
     }
-    const existingReminder = this.reminders.get(id)!;
+    const existingReminder = this.reminders.get(id) || {};
     existingReminder.isCompleted = true;
     this.reminders.set(id, existingReminder);
     console.log("\nReminder marked as completed\n");
   }
 
   //mark reminder as incompleted
-  markAsIncompleted(id: string): void {
-    if (!this.reminders.has(id)) {
+  unmarkReminderAsCompleted(id: string): void {
+    if (!this.exist(id)) {
       console.log("\nReminder not found\n");
       return;
     }
-    const existingReminder = this.reminders.get(id)!;
+    const existingReminder = this.reminders.get(id) || {};
     existingReminder.isCompleted = false;
     this.reminders.set(id, existingReminder);
     console.log("\nReminder marked as incompleted\n");
   }
+  //get all reminders
+  getAllReminders(): reminder[] {
+    return Array.from(this.reminders.values());
+  }
+
+  //get reminder by id
+  getReminder(id: string): reminder | undefined {
+    return this.reminders.get(id);
+  }
 
   //get all completed reminders
-  getCompletedReminders(): void {
+  getAllRemindersMarkedAsCompleted(): void {
     const completedReminder = Array.from(this.reminders.values()).filter(
       (reminder) => reminder.isCompleted
     );
@@ -97,7 +75,7 @@ export class reminderDatabase {
   }
 
   //get all incompleted reminders
-  getIncompletedReminders(): reminder[] {
+  getAllRemindersNotMarkedAsCompleted(): reminder[] {
     const incompletedReminders = Array.from(this.reminders.values()).filter(
       (reminder) => !reminder.isCompleted
     );
@@ -114,7 +92,7 @@ export class reminderDatabase {
   }
 
   //get all past due reminders
-  getPastDueReminders(): reminder[] {
+  getAllRemindersDueByToday(): reminder[] {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Ensure we compare only the date part
 
@@ -137,5 +115,27 @@ export class reminderDatabase {
     }
 
     return pastDueReminders;
+  }
+
+  //update reminder
+  updateReminder(id: string, reminder: reminder): void {
+    if (!this.exist(id)) {
+      console.log("\nReminder not found\n");
+      return;
+    }
+    const existingReminder = this.reminders.get(id);
+    const newReminder = { ...existingReminder, ...reminder, id };
+    this.reminders.set(id, newReminder);
+    console.log("\nReminder updated successfully\n");
+  }
+
+  //remove reminder
+  removeReminder(id: string): void {
+    if (!this.exist(id)) {
+      console.log("\nReminder not found\n");
+      return;
+    }
+    this.reminders.delete(id);
+    console.log("\nReminder removed successfully\n");
   }
 }
