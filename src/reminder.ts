@@ -72,10 +72,11 @@ export class reminderDatabase {
     } else {
       console.log(completedReminder);
     }
+    
   }
 
   //get all incompleted reminders
-  getAllRemindersNotMarkedAsCompleted(): reminder[] {
+  getAllRemindersNotMarkedAsCompleted(): void {
     const incompletedReminders = Array.from(this.reminders.values()).filter(
       (reminder) => !reminder.isCompleted
     );
@@ -88,7 +89,6 @@ export class reminderDatabase {
       console.log(incompletedReminders);
     }
 
-    return incompletedReminders;
   }
 
   //get all past due reminders
