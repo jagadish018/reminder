@@ -10,19 +10,19 @@ export class reminderDatabase {
   private remind: Map<string, reminder> = new Map();
 
   createReminder(reminder: reminder): string {
-    let id = Math.random().toString(36).substring(2, 11);
+    let id = Math.random().toString(36).substring(2, 11);//generating random id
     reminder.id = id;
     reminder.isCompleted = false;
-    this.remind.set(id, reminder);
+    this.remind.set(id, reminder);//adding reminder to the map
     console.log(`Reminder created successfully with id: ${id}\n`);
     return id;
   }
   exists(id: string): boolean {
-    return this.remind.has(id);
+    return this.remind.has(id);//checking if reminder exists
   }
 
   getReminder(id: string): reminder | null {
-    return this.remind.get(id) || null;
+    return this.remind.get(id) || null;//getting reminder by id
   }
 
   getAllReminders(): reminder[] {
@@ -62,12 +62,15 @@ export class reminderDatabase {
     });
   }
 
-  getAllRemindersMarkedAsCompleted(): void {
+  getAllRemindersMarkedAsCompleted(): string []{
     const completedReminders = Array.from(this.remind.values()).filter(
       (reminder) => reminder.isCompleted
     );
     console.log("\nCompleted Reminders:\n");
     console.log(completedReminders);
+    return completedReminders.map((reminder) => reminder
+      .id || "");
+    
   }
 
   unmarkReminderAsCompleted(ids: string[]): void {
@@ -83,15 +86,17 @@ export class reminderDatabase {
     });
   }
 
-  getAllRemindersNotMarkedAsCompleted(): void {
+  getAllRemindersNotMarkedAsCompleted(): string []{
     const incompletedReminders = Array.from(this.remind.values()).filter(
       (reminder) => !reminder.isCompleted
     );
     console.log("\nIncompleted Reminders:\n");
     console.log(incompletedReminders);
+    return incompletedReminders.map((reminder) => reminder
+      .id || "");
   }
 
-  getAllRemindersDueByToday(): void {
+  getAllRemindersDueByToday(): string []{
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -111,5 +116,7 @@ export class reminderDatabase {
     } else {
       console.log(remindersDueByToday);
     }
+    return remindersDueByToday.map((reminder) => reminder
+      .id || "");
   }
 }
