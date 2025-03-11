@@ -8,13 +8,21 @@ type reminder = {
 
 export class reminderDatabase {
   private reminders: Map<string, reminder> = new Map();
+  exist(id: string): boolean {
+    return this.reminders.has(id);
+  }
 
   //creating reminder
   createReminder(reminder: reminder): string {
-    let id = Math.random().toString(36).substring(2, 11);
+    let id = Math.random().toString(36).substring(2, 9);
     reminder.id = id;
-    this.reminders.set(id, { ...reminder, id, isCompleted: false });
-    console.log(`Reminder created successfully with id: ${id}\n`);
+    reminder.isCompleted = false;
+    if (this.exist(id)) {
+      this.reminders.set(id, reminder);
+      console.log(`Reminder created successfully with id: ${id}\n`);
+    } else {
+      console.log("Reminder already exists\n"); //if reminder already exists
+    }
     return id;
   }
 
